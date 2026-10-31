@@ -34,7 +34,6 @@ async function run() {
         continue;
       }
 
-      
       // 4. Execute Safe Query against Database
       const results = runQuery(sql);
       console.log('📊 Query Results:');
