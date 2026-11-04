@@ -1,4 +1,4 @@
-import { generateObject } from 'ai';
+import { generateText, Output } from 'ai';
 import { google } from '@ai-sdk/google';
 import { SqlQuerySchema, SqlQueryOutput } from '../schemas/querySchema.js';
 
@@ -18,14 +18,18 @@ Rules:
  * Uses Gemini to translate natural language into a structured SQL query.
  */
 export async function generateSqlFromPrompt(userQuestion: string): Promise<SqlQueryOutput> {
-  const { object } = await generateObject({
-    model: google('gemini-3.8-flash'),
-    schema: SqlQuerySchema,
+  console.log('⏳ Sending request to Gemini API...');
+
+  const result = await generateText({
+    model: google('gemini-3.5-flash'),
+    output: Output.object({
+      schema: SqlQuerySchema,
+    }),
     system: DB_SCHEMA_CONTEXT,
     prompt: `Translate the following user question into a SQLite query:\n\n"${userQuestion}"`,
   });
 
-  return object;
+  return result.output as SqlQueryOutput;
 }
 
 /**

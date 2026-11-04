@@ -39,8 +39,8 @@ async function run() {
       console.log('📊 Query Results:');
       console.table(results);
 
-    } catch (error) {
-      console.error('❌ Error processing question:', error);
+    } catch (error: any) {
+      console.error(`⚠️  AI Service encountered temporary high demand or error: ${error.message || error}`);
     }
 
     console.log('--------------------------------------------------\n');
